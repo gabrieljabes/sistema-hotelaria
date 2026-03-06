@@ -7,7 +7,7 @@
 int main(){
 
 ControleDeGastos w;
-Despesa a("Batata frita", "Comida", 27.50);
+Despesa a("Batata frita", "Comida", 27.50, 2);
 Despesa b("Iscas de frango", "Comida", 40.50);
 
 w.addDespesa(a);
@@ -15,6 +15,6 @@ w.addDespesa(b);
 
 w.exibirGastos();
 
-std::cout << "Total: " << w.calcularTotalDespesas() << std::endl;
+std::cout << "Total: " << w.calcularTotal() << std::endl;
     return 0;
 }

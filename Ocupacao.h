@@ -1,3 +1,4 @@
+#pragma once
 #include "Data.h"
 
 class Ocupacao{

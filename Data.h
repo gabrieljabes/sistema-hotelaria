@@ -1,11 +1,14 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <iostream>
 
+using namespace std;
+
 class Data{
     private:
     int dia, mes, ano;
-    std::vector <int> diaLimite{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    vector <int> diaLimite{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     public:
     Data(){
         dia = 0;
@@ -19,7 +22,7 @@ class Data{
         if(itMes < diaLimite.size()){
             if(d > diaLimite[itMes] || d <= 0){
                 dia = 1;
-                std::cout << "Atributo dia Inválido" << std::endl;
+                cout << "Atributo dia Inválido" << endl;
             }
             else
                 dia = d;
@@ -27,7 +30,7 @@ class Data{
 
         else{
             dia = d;
-            std::cout << "Atributo mês Inválido" << std::endl;
+            cout << "Atributo mês Inválido" << endl;
         }
         
         if(m > 12 || m <= 0){
@@ -77,31 +80,31 @@ class Data{
     }
     
 
-    std::string toStringData(){
+    string toStringData(){
         bool d_dia = (dia >= 10);
         bool d_mes = (mes >= 10);
-        std::string stringDataDia;
-        std::string stringDataMes;
-        std::string stringDataAno;
+        string stringDataDia;
+        string stringDataMes;
+        string stringDataAno;
 
         if(d_dia == false)
-            stringDataDia = "0" + (std::to_string(getDia()));
+            stringDataDia = "0" + (to_string(getDia()));
         else
-            stringDataDia = (std::to_string(getDia()));
+            stringDataDia = (to_string(getDia()));
 
          if(d_mes == false)
-            stringDataMes = "0" + (std::to_string(getMes()));
+            stringDataMes = "0" + (to_string(getMes()));
         else
-            stringDataMes = (std::to_string(getMes()));
+            stringDataMes = (to_string(getMes()));
 
-            stringDataAno = (std::to_string(getAno()));
+            stringDataAno = (to_string(getAno()));
         
-        std::string stringData = stringDataDia + "/" + stringDataMes + "/" + stringDataAno;
+        string stringData = stringDataDia + "/" + stringDataMes + "/" + stringDataAno;
 
         return stringData;
     }
     
     void exibirData(){
-        std::cout << toStringData() << std::endl;
+        cout << toStringData() << endl;
     }
 };

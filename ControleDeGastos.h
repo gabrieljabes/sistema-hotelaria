@@ -1,40 +1,55 @@
+#pragma once
 #include "Despesa.h"
 #include <iostream>
 #include <vector>
 
+
+using namespace std;
+
 class ControleDeGastos{
     private:
-    std::vector <Despesa> gastos;
+    vector <Despesa> gastos;
     
     public:
 
     void addDespesa(Despesa d){
+        for(auto& item : gastos){
+            if(item.getNome() == d.getNome()){
+                item.setQuantidade(item.getQuantidade() + d.getQuantidade());
+                return;
+            }
+        }
         gastos.push_back(d);
+        }
+    
+
+    void deleteDespesa(int index){
+        gastos.erase(gastos.begin() + index);
     }
     
 
-    double calcularTotalDespesas(){
+    double calcularTotal(){
         double total{};
         for(auto& k : gastos)
-            total+= k.getValor();
+            total+= k.calcularTotalDespesa();
         
         return total;
     }
 
-    float calcularTotalDespesas(std::string tipo){
-        float total{};
+    double calcularTotal(string tipo){
+        double total{};
 
-        for(Despesa k : gastos)
+        for(auto& k : gastos)
             if(k.getTipo() == tipo)
-                total+= k.getValor();
+                total+= k.calcularTotalDespesa();
         
         return total;
     }
 
-    bool existeDespesaDoTipo(std::string tipoBusca){
+    bool existeDespesaDoTipo(string tipoBusca){
         bool existe;
 
-        for(Despesa k : gastos)
+        for(auto& k : gastos)
             if(tipoBusca == k.getTipo()){
                 existe = true;  
                 break;
@@ -46,11 +61,11 @@ class ControleDeGastos{
 
     void exibirGastos(){
         if(gastos.empty()) {
-            std::cout << "Nenhum gasto registrado." << std::endl;
+            cout << "Nenhum gasto registrado." << endl;
             return;
         }
         for(auto& k : gastos)
-            std::cout << " - " << k.getNome() << " [" << k.getTipo() << "] R$" << k.getValor() << std::endl;
+            cout << " - " << k.getNome() << " [" << k.getTipo() << "] "<< "Quantidade : " << k.getQuantidade() << " R$" << k.calcularTotalDespesa() << endl;
     }
 
 };
