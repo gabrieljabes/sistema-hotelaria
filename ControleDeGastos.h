@@ -2,7 +2,8 @@
 #include "Despesa.h"
 #include <iostream>
 #include <vector>
-
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -47,25 +48,50 @@ class ControleDeGastos{
     }
 
     bool existeDespesaDoTipo(string tipoBusca){
-        bool existe;
 
-        for(auto& k : gastos)
-            if(tipoBusca == k.getTipo()){
-                existe = true;  
-                break;
-            } else
-                existe = false;
+        transform(tipoBusca.begin(), tipoBusca.end(), tipoBusca.begin(), ::tolower);
 
-    return existe;
+        for(auto& k : gastos){
+            //copia do valor pra comparar
+            string t = k.getTipo();
+            transform(t.begin(), t.end(), t.begin(), ::tolower);
+            if(tipoBusca == t)
+                return true;
+        }
+        return false;
     }
-
     void exibirGastos(){
         if(gastos.empty()) {
             cout << "Nenhum gasto registrado." << endl;
             return;
         }
         for(auto& k : gastos)
-            cout << " - " << k.getNome() << " [" << k.getTipo() << "] "<< "Quantidade : " << k.getQuantidade() << " R$" << k.calcularTotalDespesa() << endl;
+            k.exibir();
+    }
+
+    void exibirGastos(string tipoGasto){
+        if(existeDespesaDoTipo(tipoGasto)){
+        transform(tipoGasto.begin(), tipoGasto.end(), tipoGasto.begin(), ::tolower);
+
+        for(auto& k : gastos){
+            //copia do valor pra comparar
+            string t = k.getTipo();
+            //transforma as letras em minusculas
+            transform(t.begin(), t.end(), t.begin(), ::tolower);
+
+            if(tipoGasto == t){
+                k.exibir();
+            }
+        }
+    } else
+        cout << "Não há gastos do tipo pesquisado" << endl;
+        return;
+    }
+
+    void zerarGastos(){
+        int tam_vetor = gastos.size();
+        for(int i = 0; i < tam_vetor; i++)
+            gastos.pop_back();
     }
 
 };
