@@ -16,21 +16,20 @@ Data inicio(7, 3, 2026);
 Data fim(10, 3, 2026);
 UnidadeHabitacional* uh;
 int tipo;
+cin >> tipo;
 switch(tipo){
     case 1:
     uh = new QuartoStandart(301, inicio, fim);
-    cout << uh->calcularCheckout() << endl;
+    cout << "Checkout do quarto standart: R$" << uh->calcularCheckout() << endl;
     break;
     
     case 2:
     uh = new SuiteLuxo(601, inicio, fim);
-    cout << uh->calcularCheckout() << endl;
+    cout << "Checkout da suite de luxo: R$" << uh->calcularCheckout() << endl;
     break;
 
     default: break;
 }
-
-delete uh;
 
 w.addDespesa(a);
 w.addDespesa(b);

@@ -2,6 +2,7 @@
 #include "ControleDeGastos.h"
 #include "Ocupacao.h"
 #include "Pessoa.h"
+#include <memory>
 
 class UnidadeHabitacional{ //testar a UH na main
     protected:
@@ -10,21 +11,18 @@ class UnidadeHabitacional{ //testar a UH na main
         int limiteHospedes; //depende do tipo de UH
         double valorDiaria; //depende do tipo de UH
         Ocupacao periodo;
-        vector<Pessoa*> hospedes;
+        vector<unique_ptr<Pessoa>> hospedes;
         bool ocupado;
 
     public:
     UnidadeHabitacional(int i, int t, Data datainicio, Data datafim, double diaria) : id(i), tipo(t), periodo(datainicio, datafim), valorDiaria(diaria){}
     UnidadeHabitacional(int i, int t, Data datainicio, Data datafim) : id(i), tipo(t), periodo(datainicio, datafim){} //construtor para as classes filhas
-    virtual~ UnidadeHabitacional();
 
     void setPessoas(){ //transferir para a main depois
         Data Nasc1(23, 3, 2007);
         Data Nasc2(20, 2, 1976);
-        Pessoa* a = new Pessoa("Kael", "000.000.000-01", Nasc1);
-        Pessoa* b = new Pessoa("Carlos", "000.000.000-02", Nasc2);
-        hospedes.push_back(a);
-        hospedes.push_back(b);
+        hospedes.push_back(make_unique<Pessoa>("Kael", "000.000.000-01", Nasc1));
+        hospedes.push_back(make_unique<Pessoa>("Carlos", "000.000.000-02", Nasc2));
     }
 
     bool getOcupado(){
