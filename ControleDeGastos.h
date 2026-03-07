@@ -38,7 +38,7 @@ class ControleDeGastos{
         return total;
     }
 
-    double calcularTotal(string tipo){
+    double calcularTotal(string& tipo){
         double total{};
 
         for(auto& k : gastos)
@@ -48,12 +48,10 @@ class ControleDeGastos{
         return total;
     }
 
-    bool existeDespesaDoTipo(string tipoBusca){
-
-        transform(tipoBusca.begin(), tipoBusca.end(), tipoBusca.begin(), ::tolower);
-
+    bool existeDespesaDoTipo(const string& tipoBusca){
+        string buscaLower = toLower(tipoBusca);
         for(auto& k : gastos){
-            if(toLower(k.getTipo()) == toLower(tipoBusca))
+            if(toLower(k.getTipo()) == buscaLower)
                 return true;
         }
         return false;
@@ -67,7 +65,7 @@ class ControleDeGastos{
             k.exibir();
     }
 
-    void exibirGastos(string tipoGasto){
+    void exibirGastos(const string& tipoGasto){
         if(existeDespesaDoTipo(tipoGasto)){
             for(auto& k : gastos){
                 if(toLower(k.getTipo()) == toLower(tipoGasto))
