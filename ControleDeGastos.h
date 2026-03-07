@@ -13,7 +13,7 @@ class ControleDeGastos{
     
     public:
 
-    void addDespesa(Despesa d){
+    void addDespesa(Despesa& d){
         for(auto& item : gastos){
             if(item.getNome() == d.getNome()){
                 item.setQuantidade(item.getQuantidade() + d.getQuantidade());
@@ -25,7 +25,8 @@ class ControleDeGastos{
     
 
     void deleteDespesa(int index){
-        gastos.erase(gastos.begin() + index);
+        if(index >= 0 && index < gastos.size())
+            gastos.erase(gastos.begin() + index);
     }
     
 
@@ -52,10 +53,7 @@ class ControleDeGastos{
         transform(tipoBusca.begin(), tipoBusca.end(), tipoBusca.begin(), ::tolower);
 
         for(auto& k : gastos){
-            //copia do valor pra comparar
-            string t = k.getTipo();
-            transform(t.begin(), t.end(), t.begin(), ::tolower);
-            if(tipoBusca == t)
+            if(toLower(k.getTipo()) == toLower(tipoBusca))
                 return true;
         }
         return false;
@@ -71,27 +69,19 @@ class ControleDeGastos{
 
     void exibirGastos(string tipoGasto){
         if(existeDespesaDoTipo(tipoGasto)){
-        transform(tipoGasto.begin(), tipoGasto.end(), tipoGasto.begin(), ::tolower);
-
-        for(auto& k : gastos){
-            //copia do valor pra comparar
-            string t = k.getTipo();
-            //transforma as letras em minusculas
-            transform(t.begin(), t.end(), t.begin(), ::tolower);
-
-            if(tipoGasto == t){
-                k.exibir();
+            for(auto& k : gastos){
+                if(toLower(k.getTipo()) == toLower(tipoGasto))
+                    k.exibir();
             }
-        }
-    } else
-        cout << "Não há gastos do tipo pesquisado" << endl;
-        return;
+        } else return;
     }
 
     void zerarGastos(){
-        int tam_vetor = gastos.size();
-        for(int i = 0; i < tam_vetor; i++)
-            gastos.pop_back();
+        gastos.clear();
     }
 
+    string toLower(string s){
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        return s;
+    }
 };

@@ -45,6 +45,6 @@ class Despesa{
     }
 
     void exibir(){
-        cout << " - " << nome << " [" << tipo << "] "<< "Quantidade : " << quantidade << " R$" << calcularTotalDespesa() << endl;
+        cout << " - " << nome << " [" << tipo << "] " << " Quantidade: "<< quantidade << "  Valor unitário: R$ " << valor << "  Total: R$ " << calcularTotalDespesa() << endl;
     }
 };
