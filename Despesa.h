@@ -43,4 +43,8 @@ class Despesa{
     double calcularTotalDespesa(){
         return quantidade * valor;
     }
+
+    void exibir(){
+        cout << " - " << nome << " [" << tipo << "] " << " Quantidade: "<< quantidade << "  Valor unitário: R$ " << valor << "  Total: R$ " << calcularTotalDespesa() << endl;
+    }
 };

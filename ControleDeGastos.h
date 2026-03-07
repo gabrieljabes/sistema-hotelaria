@@ -2,7 +2,8 @@
 #include "Despesa.h"
 #include <iostream>
 #include <vector>
-
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ class ControleDeGastos{
     
     public:
 
-    void addDespesa(Despesa d){
+    void addDespesa(Despesa& d){
         for(auto& item : gastos){
             if(item.getNome() == d.getNome()){
                 item.setQuantidade(item.getQuantidade() + d.getQuantidade());
@@ -24,7 +25,8 @@ class ControleDeGastos{
     
 
     void deleteDespesa(int index){
-        gastos.erase(gastos.begin() + index);
+        if(index >= 0 && index < gastos.size())
+            gastos.erase(gastos.begin() + index);
     }
     
 
@@ -36,7 +38,7 @@ class ControleDeGastos{
         return total;
     }
 
-    double calcularTotal(string tipo){
+    double calcularTotal(string& tipo){
         double total{};
 
         for(auto& k : gastos)
@@ -46,26 +48,38 @@ class ControleDeGastos{
         return total;
     }
 
-    bool existeDespesaDoTipo(string tipoBusca){
-        bool existe;
-
-        for(auto& k : gastos)
-            if(tipoBusca == k.getTipo()){
-                existe = true;  
-                break;
-            } else
-                existe = false;
-
-    return existe;
+    bool existeDespesaDoTipo(const string& tipoBusca){
+        string buscaLower = toLower(tipoBusca);
+        for(auto& k : gastos){
+            if(toLower(k.getTipo()) == buscaLower)
+                return true;
+        }
+        return false;
     }
-
     void exibirGastos(){
         if(gastos.empty()) {
             cout << "Nenhum gasto registrado." << endl;
             return;
         }
         for(auto& k : gastos)
-            cout << " - " << k.getNome() << " [" << k.getTipo() << "] "<< "Quantidade : " << k.getQuantidade() << " R$" << k.calcularTotalDespesa() << endl;
+            k.exibir();
     }
 
+    void exibirGastos(const string& tipoGasto){
+        if(existeDespesaDoTipo(tipoGasto)){
+            for(auto& k : gastos){
+                if(toLower(k.getTipo()) == toLower(tipoGasto))
+                    k.exibir();
+            }
+        } else return;
+    }
+
+    void zerarGastos(){
+        gastos.clear();
+    }
+
+    string toLower(string s){
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        return s;
+    }
 };

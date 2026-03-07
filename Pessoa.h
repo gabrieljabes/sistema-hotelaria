@@ -25,7 +25,7 @@ class Pessoa{
         Data getData(){
             return dataNascimento;
         }
-
+        // passa o endereço da fatura, não cria cópia. Necessário pra poder atualizar a fatura.
         ControleDeGastos& getFatura(){
             return fatura;
         }
