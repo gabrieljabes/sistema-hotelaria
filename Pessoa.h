@@ -26,6 +26,10 @@ class Pessoa{
             return dataNascimento;
         }
 
+        ControleDeGastos getFatura(){
+            return fatura;
+        }
+        
         void setNome(string n){
             nome = n;
         }
