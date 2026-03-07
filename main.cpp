@@ -2,21 +2,26 @@
 #include <vector>
 #include <iostream>
 #include "Ocupacao.h"
-#include "ControleDeGastos.h"
+#include "Pessoa.h"
+
 
 int main(){
 
-ControleDeGastos w;
-Despesa a("Batata frita", "Comida", 27.50, 2);
-Despesa b("Iscas de frango", "Comida", 40.50);
-Despesa c("Secador de cabelo", "Empréstimo", 80.00);
+    Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
+    Despesa a("Batata frita", "Comida", 27.50, 2);
+    Despesa b("Iscas de frango", "Comida", 40.50);
+    Despesa c("Secador de cabelo", "Empréstimo", 80.00);
 
-w.addDespesa(a);
-w.addDespesa(b);
-w.addDespesa(c);
+    p.getFatura().addDespesa(a);
+    p.getFatura().addDespesa(b);
+    p.getFatura().addDespesa(c);
+    p.getFatura().exibirGastos("comida");
+    std::cout << "Total: " << p.getFatura().calcularTotal() << std::endl;
+    p.getFatura().zerarGastos();
+    p.getFatura().exibirGastos();
 
-w.exibirGastos("comida");
-
-std::cout << "Total: " << w.calcularTotal() << std::endl;
-    return 0;
+    std::cout << "Total: " << p.getFatura().calcularTotal() << std::endl;
+    std::cout << p.getNome() << p.getCpf() << p.getData().toStringData() << endl;
+        return 0;
 }
+

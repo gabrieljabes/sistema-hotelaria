@@ -26,7 +26,7 @@ class Pessoa{
             return dataNascimento;
         }
 
-        ControleDeGastos getFatura(){
+        ControleDeGastos& getFatura(){
             return fatura;
         }
         
