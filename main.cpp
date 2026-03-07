@@ -15,6 +15,6 @@ w.addDespesa(b);
 
 w.exibirGastos();
 
-std::cout << "Total: " << w.calcularTotal() << std::endl;
+cout << "Total: " << w.calcularTotal() << endl;
     return 0;
 }
