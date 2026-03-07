@@ -3,34 +3,37 @@
 #include "Ocupacao.h"
 #include "Pessoa.h"
 
-class UnidadeHabitacional{ //testar a Uh na main antes e depois de deixar abstrata
-    private:
+class UnidadeHabitacional{ //testar a UH na main antes e depois de deixar abstrata
+    protected:
         int id;
-        int limiteHospedes;
-        double valorDiaria;
+        int tipo; // tipo de UH (standart ou suiteluxo)
+        int limiteHospedes; //depende do tipo de UH
+        double valorDiaria; //depende do tipo de UH
         Ocupacao periodo;
-        vector <Pessoa*> hospedes;
+        vector<Pessoa*> hospedes;
         bool ocupado;
 
     public:
-    UnidadeHabitacional(int i, int inicio, int fim) : id(i), Ocupacao(inicio, fim){} //QUE ERRO É ESSE
+    UnidadeHabitacional(int i, int t, Data datainicio, Data datafim, double diaria) : id(i), tipo(t), periodo(datainicio, datafim), valorDiaria(diaria){}
     virtual~ UnidadeHabitacional();
+
+    void setPessoas(){ //transferir para a main depois
+        Data Nasc1(23, 3, 2007);
+        Data Nasc2(20, 2, 1976);
+        Pessoa* a = new Pessoa("Kael", "000.000.000-01", Nasc1);
+        Pessoa* b = new Pessoa("Carlos", "000.000.000-02", Nasc2);
+        hospedes.push_back(a);
+        hospedes.push_back(b);
+    }
 
     bool getOcupado(){
         if(!ocupado) return false;
         else if(ocupado) return true;
     }
 
-    double calcularCheckout(){ //mudar para método abstrato para as outras classes herdarem
-        double checkout = 0;
-        for(int i = 0; i < hospedes.size(); i++){
-            checkout =+ hospedes[i]->getFatura().calcularTotal();
-        }
-        
-        return checkout + (valorDiaria * periodo.calcularDias());
-    }
+    virtual double calcularCheckout() = 0;
 
-    double calcularFaturaTotal(){ //esse tbm
+    double calcularFaturaTotal(){
         double fatura = 0;
         for(int i = 0; i < hospedes.size(); i++){
             fatura =+ hospedes[i]->getFatura().calcularTotal();
