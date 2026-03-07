@@ -2,7 +2,11 @@
 #include "UH.h"
 
 class QuartoStandart : public UnidadeHabitacional{
+    private:
+    
     public:
+    QuartoStandart(int i, Data dataInicio, Data DataFim) : UnidadeHabitacional(i, 1, dataInicio, DataFim){}
+
     double calcularCheckout() override {
         double checkout = 0;
         for(int i = 0; i < hospedes.size(); i++){

@@ -3,7 +3,7 @@
 #include "Ocupacao.h"
 #include "Pessoa.h"
 
-class UnidadeHabitacional{ //testar a UH na main antes e depois de deixar abstrata
+class UnidadeHabitacional{ //testar a UH na main
     protected:
         int id;
         int tipo; // tipo de UH (standart ou suiteluxo)
@@ -15,6 +15,7 @@ class UnidadeHabitacional{ //testar a UH na main antes e depois de deixar abstra
 
     public:
     UnidadeHabitacional(int i, int t, Data datainicio, Data datafim, double diaria) : id(i), tipo(t), periodo(datainicio, datafim), valorDiaria(diaria){}
+    UnidadeHabitacional(int i, int t, Data datainicio, Data datafim) : id(i), tipo(t), periodo(datainicio, datafim){} //construtor para as classes filhas
     virtual~ UnidadeHabitacional();
 
     void setPessoas(){ //transferir para a main depois

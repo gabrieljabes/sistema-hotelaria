@@ -6,6 +6,8 @@ class SuiteLuxo : public UnidadeHabitacional{
     double TaxadeServico = 100;
 
     public:
+    SuiteLuxo(int i, Data dataInicio, Data dataFim) : UnidadeHabitacional(i, 2, dataInicio, dataFim){}
+
     double calcularCheckout() override{
         double checkout = 0;
         for(int i = 0; i < hospedes.size(); i++){
