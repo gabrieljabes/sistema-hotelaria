@@ -1,16 +1,32 @@
 #pragma once
 #include "UH.h"
+#include <iomanip>
 
 class Hotel{
     private:
     vector<UnidadeHabitacional*> UH;
+    vector<shared_ptr<Pessoa>> clientes;
+    vector<shared_ptr<UnidadeHabitacional>> quartos;
 
     public:
+
+    void cadastrarCliente(){
+        string Nome;
+        string cpf;
+        int d, m, a;
+
+        cin.ignore();
+        getline(cin, Nome);
+        getline(cin, cpf);
+        cin >> d >> m >> a;
+        Data dataNasc(d, m, a);
+
+        clientes.push_back(make_shared<Pessoa>(Nome, cpf, dataNasc));
+    }
     
     void listarTodas(){
         for(auto a : UH){
-            //getID pra listar as unidades com titulo
-            a->exibirDetalhes();
+            
         }
     }
 
