@@ -23,26 +23,25 @@ class UnidadeHabitacional{
     virtual ~UnidadeHabitacional() = default;
 
     void addHospede(Pessoa* p){
-        // se antes do método ser chamado o vetor era vazio, então ele mudará o estado de ocupado;
-        if(hospedesAtuais.empty())
-            ocupado = true;
-
         if(hospedesAtuais.size() == limiteHospedes){
             cout << "Não foi possível adicionar, limite de hóspedes atingido" << endl;
-        } else {
-             hospedesAtuais.push_back(p);
-        }
+            return;
+        } 
+
+        hospedesAtuais.push_back(p);
+        ocupado = true;
+        
     }
 
-    int& getId(){
+    int getId(){
         return id;
     }
 
-    int& getTipo(){
+    int getTipo(){
         return tipo;
     }
 
-    double& getValorDiaria(){
+    double getValorDiaria(){
         return valorDiaria;
     }
 
@@ -55,6 +54,19 @@ class UnidadeHabitacional{
             return hospedesAtuais[index];
         }
         return nullptr;
+    }
+
+    Pessoa* getHospedePorCPF(string& cpfBusca) {
+        for(int i = 0; i < hospedesAtuais.size(); i++) {
+            if(hospedesAtuais[i]->getCpf() == cpfBusca) {
+                return hospedesAtuais[i]; 
+            }
+        }
+        return nullptr; 
+    }
+
+    int getQuantidadeHospedes() {
+        return hospedesAtuais.size();
     }
 
     void liberarUH(){
@@ -96,8 +108,9 @@ class UnidadeHabitacional{
             cout << "Não há faturas dos hóspedes nessa unidade habitacional" << endl;
         else {
             for(int i = 0; i < hospedesAtuais.size(); i++){
-                cout << "Fatura de " <<hospedesAtuais[i]->getNome() << endl;
+                cout << "\nFatura de " <<hospedesAtuais[i]->getNome() << endl;
                 hospedesAtuais[i]->getFatura().exibirGastos();
+                cout << "Total: R$ " << hospedesAtuais[i]->getFatura().calcularTotal() << endl;
             }
         }
     }
@@ -108,6 +121,8 @@ class UnidadeHabitacional{
         } else if(tipo == 2){
             return "Suíte Luxo";
         }
+        return "";
     }
     virtual void exibirCheckout() = 0;
+
 };

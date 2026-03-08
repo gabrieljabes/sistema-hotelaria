@@ -27,14 +27,19 @@ class Ocupacao{
         dataFim = fim;
     }
 
-    int calcularDias(){
-        //avança os dias de uma cópia da data de início até se igualar a do fim para calcular os dias
-        Data d = getDataInicio();
-        int i = 1; // inclui a data de Inicio
-        while(d.toStringData() != getDataFim().toStringData()){
-            d.avancarDia();
-            i++;
+int calcularDias() {
+        // transforma as duas datas em dias absolutos
+        int diasInicio = dataInicio.getDiasAbsolutos();
+        int diasFim = dataFim.getDiasAbsolutos();
+        
+        int diferenca = diasFim - diasInicio;
+
+        if (diferenca < 0) {
+            cout << "Erro: A data de fim é anterior à data de início!" << endl;
+            return 0; 
         }
-      return i;
+
+        // retorna a diferença + 1 (para incluir a diária do próprio dia de entrada)
+        return diferenca + 1;
     }
 };

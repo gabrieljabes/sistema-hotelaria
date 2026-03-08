@@ -12,6 +12,7 @@ int main(){
 
     Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
     Pessoa d("Jabis", "000.000.000-00", Data(21, 11, 2006));
+    Pessoa g("Cavicoli", "000.000.000-00", Data(21, 11, 1996));
 
     Despesa a("Batata frita", "Comida", 27.50, 2);
     Despesa b("Iscas de frango", "Comida", 40.50);
@@ -22,9 +23,11 @@ int main(){
 
     teste->addHospede(&p);
     teste->addHospede(&d);
+    seila->addHospede(&g);
     teste->getHospede(0)->getFatura().addDespesa(a);
     teste->getHospede(1)->getFatura().addDespesa(b);
     teste->getHospede(0)->getFatura().addDespesa(c);
+    seila->getHospede(0)->getFatura().addDespesa(a);
 
     teste->exibirInfo();
     cout << endl << endl << endl;

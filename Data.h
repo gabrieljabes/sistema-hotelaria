@@ -104,6 +104,24 @@ class Data{
         return stringData;
     }
     
+
+    int getDiasAbsolutos() {
+        int anosAnteriores = ano - 1;
+        int diasAnos = anosAnteriores * 365;
+
+        int bissextos = (anosAnteriores / 4) - (anosAnteriores / 100) + (anosAnteriores / 400);
+
+
+        // Soma os dias dos meses que já passaram neste ano
+        int diasMeses = 0;
+        for (int i = 0; i < mes - 1; i++) {
+            diasMeses += diaLimite[i];
+        }
+
+        // Retorna o total absoluto de dias
+        return diasAnos + bissextos + diasMeses + dia;
+    }
+
     void exibirData(){
         cout << toStringData() << endl;
     }
