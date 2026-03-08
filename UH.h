@@ -34,6 +34,10 @@ class UnidadeHabitacional{
         }
     }
 
+    int& getId(){
+        return id;
+    }
+
     Pessoa* getHospede(int index){
         if (index >= 0 && index < hospedesAtuais.size()) {
             return hospedesAtuais[index];
