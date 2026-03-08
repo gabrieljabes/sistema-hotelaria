@@ -38,6 +38,18 @@ class UnidadeHabitacional{
         return id;
     }
 
+    int& getTipo(){
+        return tipo;
+    }
+
+    double& getValorDiaria(){
+        return valorDiaria;
+    }
+
+    Ocupacao getPeriodo(){
+        return periodo;
+    }
+
     Pessoa* getHospede(int index){
         if (index >= 0 && index < hospedesAtuais.size()) {
             return hospedesAtuais[index];
@@ -69,19 +81,13 @@ class UnidadeHabitacional{
         return fatura;
     }
 
-    virtual void exibirUH(){
-        string quarto;
-        if(tipo == 1)
-            quarto = "Quarto Standard";
-        else if(tipo == 2)
-            quarto = "Suíte Luxo";
-        
-        
-        cout << "\n=== " << quarto << " ===" << endl;
+    virtual void exibirInfo(){
+        cout << "\n=== " << getTipoString() << " ===" << endl;
         cout << "ID: " << id << endl;
         cout << "Valor da diária: R$" << valorDiaria << endl;
         cout << "Limite de hóspedes: " << limiteHospedes << endl;
     }
+
 
     virtual void exibirDetalhes(){
         if(hospedesAtuais.empty())
@@ -96,5 +102,12 @@ class UnidadeHabitacional{
         }
     }
 
+    string getTipoString(){
+        if(tipo == 1){
+            return "Quarto Standard";
+        } else if(tipo == 2){
+            return "Suíte Luxo";
+        }
+    }
     virtual void exibirCheckout() = 0;
 };
