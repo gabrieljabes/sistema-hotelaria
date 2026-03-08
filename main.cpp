@@ -26,13 +26,13 @@ int main(){
     teste->getHospede(1)->getFatura().addDespesa(b);
     teste->getHospede(0)->getFatura().addDespesa(c);
 
-    teste->exibirUH();
+    teste->exibirInfo();
     cout << endl << endl << endl;
     teste->exibirDetalhes();
     cout << endl << endl << endl;
     teste->exibirCheckout();
     cout << endl << endl << endl;
-    seila->exibirUH();
+    seila->exibirInfo();
     cout << endl << endl << endl;
     seila->exibirDetalhes();
     cout << endl << endl << endl;

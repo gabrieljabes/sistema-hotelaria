@@ -17,7 +17,10 @@ class SuiteLuxo : public UnidadeHabitacional{
         temHidromassagemPrivativa = q;
     }
 
-
+    void exibirInfo(){
+        UnidadeHabitacional::exibirInfo();
+        cout << "Tem hidromassagem?: " << (temHidromassagemPrivativa ? "sim" : "não") << endl;
+    }
     
     double calcularCheckout() override {
         if(temHidromassagemPrivativa == true)
