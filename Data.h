@@ -107,4 +107,9 @@ class Data{
     void exibirData(){
         cout << toStringData() << endl;
     }
+
+    void lerData(){
+        char barra1, barra2;
+        cin >> dia >> barra1 >> mes >> barra2 >> ano;
+    }
 };
