@@ -30,7 +30,7 @@ class UnidadeHabitacional{
         if(hospedesAtuais.size() == limiteHospedes){
             cout << "Não foi possível adicionar, limite de hóspedes atingido" << endl;
         } else {
-             hospedesAtuais.push_back(p);
+            hospedesAtuais.push_back(p);
         }
     }
 
@@ -109,5 +109,6 @@ class UnidadeHabitacional{
             return "Suíte Luxo";
         }
     }
+
     virtual void exibirCheckout() = 0;
 };

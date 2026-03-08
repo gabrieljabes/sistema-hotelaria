@@ -108,8 +108,10 @@ class Data{
         cout << toStringData() << endl;
     }
 
-    void lerData(){
-        char barra1, barra2;
-        cin >> dia >> barra1 >> mes >> barra2 >> ano;
+    bool operator<=(const Data& d){
+        if(ano != d.ano) return ano < d.ano;
+        if(mes != d.mes) return mes < d.mes;
+        return dia <= d.dia;
     }
+
 };
