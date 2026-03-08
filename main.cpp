@@ -9,8 +9,7 @@
 #include "SuiteLuxo.h"
 
 int main(){
-
-    Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
+    /*Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
     Despesa a("Batata frita", "Comida", 27.50, 2);
     Despesa b("Iscas de frango", "Comida", 40.50);
     Despesa c("Secador de cabelo", "Empréstimo", 80.00);
@@ -54,7 +53,7 @@ w.addDespesa(b);
 
 w.exibirGastos();
 
-cout << "Total: " << w.calcularTotal() << endl;
+cout << "Total: " << w.calcularTotal() << endl;*/
     return 0;
 }
 

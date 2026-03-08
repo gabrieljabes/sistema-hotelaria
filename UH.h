@@ -4,7 +4,7 @@
 #include "Pessoa.h"
 #include <memory>
 
-class UnidadeHabitacional{ //testar a UH na main
+class UnidadeHabitacional{
     protected:
         int id;
         int tipo; // tipo de UH (standart ou suiteluxo)
