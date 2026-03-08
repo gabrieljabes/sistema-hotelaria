@@ -17,9 +17,9 @@ class SuiteLuxo : public UnidadeHabitacional{
         temHidromassagemPrivativa = q;
     }
 
-    void exibirInfo(){
-        UnidadeHabitacional::exibirInfo();
-        cout << "Tem hidromassagem?: " << (temHidromassagemPrivativa ? "sim" : "não") << endl;
+    void exibirInfo() override {
+            UnidadeHabitacional::exibirInfo();
+            cout << "Hidromassagem: " << (temHidromassagemPrivativa ? "Sim" : "Não") << endl;
     }
     
     double calcularCheckout() override {
@@ -30,14 +30,22 @@ class SuiteLuxo : public UnidadeHabitacional{
     }
 
     void exibirCheckout(){
-        cout << "\n=== CHECKOUT ===" << endl;
-        cout << "Total das faturas: R$ " << calcularFaturaTotal() << endl;
-        cout << "Custo de " << periodo.calcularDias() << " diárias: R$ " << valorDiaria * periodo.calcularDias() << endl;
-        cout << "Desconto VIP sobre a fatura: " << (1 - descontoVIP) * 100 << "%" << endl;
-        if(temHidromassagemPrivativa)
-            cout << "Taxa extra da hidromassagem: R$ " << 100 << endl;
-        cout << "Taxa de limpeza extra: R$ " << taxaLimpezaExtra << endl;
-        cout << "Total: R$ " << calcularCheckout() << endl;
+        cout << "\n[ RECIBO DE CHECKOUT - " << getTipoString() << " " << id << " ]" << endl;
+        cout << fixed << setprecision(2);
+        cout << "Diárias (" << periodo.calcularDias() << "x R$ " << valorDiaria << "): R$ " << (valorDiaria * periodo.calcularDias()) << endl;
+        double faturaTotal = calcularFaturaTotal();
+        cout << "Consumo (Fatura)      : R$ " << faturaTotal << endl;
+        // Mostra o valor real descontado em vez de apenas a percentagem
+        if (faturaTotal > 0) {
+            cout << "Desconto VIP (10%)    :-R$ " << faturaTotal * (1.0 - descontoVIP) << endl;
+        }
+        cout << "Taxa de Limpeza Extra : R$ " << taxaLimpezaExtra << endl;
+        if(temHidromassagemPrivativa) {
+            cout << "Taxa Hidromassagem    : R$ 100.00" << endl;
+        }
+        cout << "---------------------------------------" << endl;
+        cout << "TOTAL A PAGAR         : R$ " << calcularCheckout() << endl;
+        cout << "---------------------------------------\n" << endl;
         
     }
     

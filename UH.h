@@ -23,26 +23,24 @@ class UnidadeHabitacional{
     virtual ~UnidadeHabitacional() = default;
 
     void addHospede(Pessoa* p){
-        // se antes do método ser chamado o vetor era vazio, então ele mudará o estado de ocupado;
-        if(hospedesAtuais.empty())
-            ocupado = true;
-
         if(hospedesAtuais.size() == limiteHospedes){
             cout << "Não foi possível adicionar, limite de hóspedes atingido" << endl;
-        } else {
-            hospedesAtuais.push_back(p);
-        }
+            return;
+        } 
+        hospedesAtuais.push_back(p);
+        ocupado = true;
+        
     }
 
-    int& getId(){
+    int getId(){
         return id;
     }
 
-    int& getTipo(){
+    int getTipo(){
         return tipo;
     }
 
-    double& getValorDiaria(){
+    double getValorDiaria(){
         return valorDiaria;
     }
 
@@ -55,6 +53,19 @@ class UnidadeHabitacional{
             return hospedesAtuais[index];
         }
         return nullptr;
+    }
+
+    Pessoa* getHospedePorCPF(string& cpfBusca) {
+        for(int i = 0; i < hospedesAtuais.size(); i++) {
+            if(hospedesAtuais[i]->getCpf() == cpfBusca) {
+                return hospedesAtuais[i]; 
+            }
+        }
+        return nullptr; 
+    }
+
+    int getQuantidadeHospedes() {
+        return hospedesAtuais.size();
     }
 
     void liberarUH(){
@@ -82,14 +93,16 @@ class UnidadeHabitacional{
     }
 
     virtual void exibirInfo(){
-        cout << "\n=== " << getTipoString() << " ===" << endl;
-        cout << "ID: " << id << endl;
-        cout << "Valor da diária: R$" << valorDiaria << endl;
+        cout << "\n[" << getTipoString() << " - Unidade " << id << "]" << endl;
+        cout << "Valor da diária: R$ " << valorDiaria << endl;
         cout << "Limite de hóspedes: " << limiteHospedes << endl;
+        cout << "Status: " << (ocupado ? "Ocupado" : "Livre") << endl;
+        cout << "Período: " << periodo.getDataInicio().toStringData() << " a " 
+             << periodo.getDataFim().toStringData() << endl;
     }
 
 
-    virtual void exibirDetalhes(){
+    virtual void exibirFaturas(){
         if(hospedesAtuais.empty())
             cout << "Não há hóspedes nessa unidade habitacional" << endl;
         else if(calcularFaturaTotal() == 0)
@@ -98,7 +111,9 @@ class UnidadeHabitacional{
             for(int i = 0; i < hospedesAtuais.size(); i++){
                 cout << "Fatura de " <<hospedesAtuais[i]->getNome() << endl;
                 hospedesAtuais[i]->getFatura().exibirGastos();
+                cout << "Total de " << hospedesAtuais[i]->getNome() << ": R$ " << hospedesAtuais[i]->getFatura().calcularTotal() << endl << endl;
             }
+            cout << "Total de todos: R$ "  << calcularFaturaTotal() << endl;
         }
     }
 
@@ -108,7 +123,13 @@ class UnidadeHabitacional{
         } else if(tipo == 2){
             return "Suíte Luxo";
         }
+        return "Desconhecido";
     }
 
     virtual void exibirCheckout() = 0;
+
+    void alterarPeriodo(Data novaInicio, Data novaFim) {
+        periodo.setDataInicio(novaInicio);
+        periodo.setDataFim(novaFim);
+    }
 };

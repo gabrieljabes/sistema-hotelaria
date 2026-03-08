@@ -40,7 +40,7 @@ class Hotel{
     return true;
 }
 
-    void cadastrarCliente(){
+    shared_ptr<Pessoa> cadastrarCliente(){
         string Nome;
         string cpf;
         int d, m, a;
@@ -56,60 +56,89 @@ class Hotel{
         cin >> d >> m >> a;
         Data dataNasc(d, m, a);
 
-        clientes.push_back(make_shared<Pessoa>(Nome, cpf, dataNasc));
+        auto novoCliente = make_shared<Pessoa>(Nome, cpf, dataNasc);
+        clientes.push_back(novoCliente);
+
+        return novoCliente;
     }
 
     void cadastrarQuarto(){
-    int id;
-    int d, m, a;
-    double diaria;
-    int tipo;
-    char res = 's';
+        int id;
+        int d, m, a;
+        double diaria;
+        int tipo;
+        char res = 's';
 
-    while(res == 's' || res == 'S'){
-        cout << "Qual a número da unidade?" << endl;
-        cin >> id;
+        while(res == 's' || res == 'S'){
+            cout << "Qual a número da unidade?" << endl;
+            cin >> id;
 
-        if(buscarQuartoPorID(id) != nullptr){
-            cout << "Quarto de ID: " << id << ", já existe." << endl;
-        }
-
-        cout << "Qual o tipo da Unidade Habitacional? (1 - Quarto Standart ou 2 - Suíte de luxo)" << endl;
-        cin >> tipo;
-
-        cout << "Qual o dia do Check-in? (dd mm aaaa)" << endl;
-        cin >> d >> m >> a;
-        Data inicio(d, m, a);
-
-        cout << "Qual o dia do Check-out? (dd mm aaaa)" << endl;
-        cin >> d >> m >> a;
-        Data fim(d, m, a);
-
-        cout << "Qual o valor da diária?" << endl;
-        cin >> diaria;
-
-        switch(tipo){
-            case 1:
-            UHs.push_back(make_shared<QuartoStandard>(id, inicio, fim, diaria));
-            break;
-
-            case 2: {
-                bool hidro;
-                char res;
-                cout << "O hóspede quer hidromassagem? (s ou n)" << endl;
-                if(res == 's') hidro = true;
-                else hidro == false;
-                UHs.push_back(make_shared<SuiteLuxo>(id, inicio, fim, diaria, hidro));
-                break;
-
+            if(buscarQuartoPorID(id) != nullptr){
+                cout << "Quarto de ID: " << id << ", já existe." << endl;
+                continue; // se n continua executando o resto pow
             }
 
-            default:
-            break;
+            cout << "Qual o tipo da Unidade Habitacional? (1 - Quarto Standart ou 2 - Suíte de luxo)" << endl;
+            cin >> tipo;
+
+            cout << "Qual o dia do Check-in? (dd mm aaaa)" << endl;
+            Data inicio;
+            do{
+                cin >> d >> m >> a;
+                inicio = Data(d, m, a);
+            } while (!inicio.isValida());
+            cout << "Qual o dia do Check-out? (dd mm aaaa)" << endl;
+            Data fim;
+            do{
+                cin >> d >> m >> a;
+                fim = Data(d, m, a);
+
+                if(fim <= inicio && fim.isValida()){
+                    cout << "Erro: A data de Check-out não pode ser anterior ou igual ao Check-in." << endl;
+                    // força a repetição mudando o estado dela pra não passar no while
+                    fim = Data(); 
+                }
+
+            } while (!fim.isValida());
+
+            cout << "Qual o valor da diária?" << endl;
+            cin >> diaria;
+
+            switch(tipo){
+                case 1:
+                UHs.push_back(make_shared<QuartoStandard>(id, inicio, fim, diaria));
+                break;
+
+                case 2: {
+                    bool hidro;
+                    char resp;
+                    cout << "O hóspede quer hidromassagem? (s ou n)" << endl;
+                    cin >> resp;
+                    if(resp == 's') 
+                        hidro = true;
+                    else
+                        hidro = false;
+                    UHs.push_back(make_shared<SuiteLuxo>(id, inicio, fim, diaria, hidro));
+                    break;
+                        
+                }
+
+                default:
+                break;
+            }
+            cout << "Deseja cadastrar um novo quarto? (s ou n)" << endl;
+            cin >> res;
         }
-        cout << "Deseja cadastrar um novo quarto? (s ou n)" << endl;
-        cin >> res;
     }
+
+    //metodo que ja aceita um objeto ja criado
+    void cadastrarQuarto(shared_ptr<UnidadeHabitacional> novoQuarto){
+        if(buscarQuartoPorID(novoQuarto->getId()) != nullptr){
+            cout << "Erro: Quarto de ID " << novoQuarto->getId() << " já existe no sistema." << endl;
+            return;
+        }
+        UHs.push_back(novoQuarto);
+        cout << "Quarto " << novoQuarto->getId() << " cadastrado com sucesso!" << endl;
     }
     
     void listarTodas(){
@@ -120,12 +149,12 @@ class Hotel{
         }
     }
 
-    void exibirUm(){
+    void exibirIndividual(){
         int id;
         cout << "Qual a número da unidade que deseja exibir?" << endl;
         cin >> id;
         if(buscarQuartoPorID(id) != nullptr){
-            buscarQuartoPorID(id).get()->exibirInfo();
+            buscarQuartoPorID(id)->exibirInfo();
             return;
         } else{
             cout << "Unidade não econtrada." << endl;
@@ -133,22 +162,61 @@ class Hotel{
         }
     }
 
+    void exibirIndividual(int id){
+        auto quarto = buscarQuartoPorID(id);
+        
+        if(quarto != nullptr){
+            quarto->exibirInfo();
+        } else {
+            cout << "Quarto ID " << id << " não encontrado no sistema." << endl;
+        }
+    }
+
+    void exibirFaturaUH(){
+        int id;
+        cout << "Qual a número da unidade que deseja exibir as faturas?" << endl;
+        cin >> id;
+        auto quarto = buscarQuartoPorID(id);
+        if(quarto != nullptr){
+            quarto->exibirFaturas();
+            return;
+        } else{
+            cout << "Unidade não econtrada." << endl;
+            return;
+        }
+    }
+
+
+    void exibirFaturaUH(int id){
+        auto quarto = buscarQuartoPorID(id);
+        
+        if(quarto != nullptr){
+            quarto->exibirFaturas();
+        } else {
+            cout << "Quarto ID " << id << " não encontrado no sistema." << endl;
+        }
+    }
     void alterar(){
         int id;
-        int res2;
-        char res1 = 's';
+        int res1;
         cout << "Qual o número da unidade que deseja alterar?" << endl;
         cin >> id;
-        if(buscarQuartoPorID(id) != nullptr){
-            while(res2 == 's' || res2 == 'S'){
+
+        auto quarto = buscarQuartoPorID(id);
+        
+        if(quarto != nullptr){
+            bool continuar = true;
+            
+            while(continuar){
                 cout << "O que deseja alterar?" << endl
                 << "1. Período de ocupação do hóspede atual" << endl
                 << "2. Alterar ou adicionar hóspede" << endl
                 << "3. retornar ao menu inicial" << endl;
+                cin >> res1;
 
                 switch(res1){
                     case 1: {
-                        if(buscarQuartoPorID(id).get()->getOcupado() == true){
+                        if(quarto->getOcupado() == true){
                             int d, m, a;
                             cout << "Digite a data de início: (dd mm aaaa)" << endl;
                             cin >> d >> m >> a;
@@ -159,18 +227,23 @@ class Hotel{
                             Data fim(d, m, a);
                             
                             alterarData(id, inicio, fim);
-                        } else cout << "Quarto ainda não está ocupado, cadastre um novo hóspede." << endl;
+                        } else
+                            cout << "Quarto ainda não está ocupado, cadastre um novo hóspede." << endl;
                         break;
                     }
 
                     case 2: {
-                        if(buscarQuartoPorID(id).get()->getOcupado() == true){
+                        if(quarto->getOcupado() == true){
                             cout << "Qual o CPF do hóspede que deseja alterar?" << endl;
                             string cpfPesquisado;
+                            cin.ignore();
                             getline(cin, cpfPesquisado);
+
+                            bool clienteEncontrado = false;
 
                             for(auto& a : clientes){
                                 if(cpfPesquisado == a.get()->getCpf()){
+                                    clienteEncontrado = true;
                                     cout << "O que deseja alterar do(a) cliente " << a.get()->getNome() << "?" << endl;
                                     cout << "1. Nome" << endl
                                     << "2. CPF" << endl
@@ -180,6 +253,7 @@ class Hotel{
                                     int res;
                                     cin >> res;
                                     cin.ignore();
+
                                     switch(res){
                                         case 1: {
                                             string novoNome;
@@ -189,7 +263,6 @@ class Hotel{
                                             cout << "Novo nome cadastrado!" << endl;
                                             break;
                                         }
-                                        
                                         case 2: {
                                             string novoCPF;
                                             cout << "Digite o novo CPF:" << endl;
@@ -198,7 +271,6 @@ class Hotel{
                                             cout << "Novo CPF cadastrado!" << endl;
                                             break;
                                         }
-
                                         case 3: {
                                             int d, m, ano;
                                             cout << "Digite a nova data de nascimento: (dd mm aaaa)" << endl;
@@ -208,7 +280,6 @@ class Hotel{
                                             cout << "Nova data de nascimento cadastrada!" << endl;
                                             break;
                                         }
-
                                         case 4: {
                                             string nome, tipo;
                                             double preco;
@@ -222,20 +293,41 @@ class Hotel{
                                             cin >> preco >> quantidade;
 
                                             Despesa novaDespesa(nome, tipo, preco, quantidade);
-
                                             a.get()->getFatura().addDespesa(novaDespesa);
+                                            cout << "Despesa adicionada com sucesso!" << endl;
                                             break;
                                         }
 
                                         default:
-                                        cout << "Caractere inválido." << endl;
-                                        break;
+                                            cout << "Caractere inválido." << endl;
+                                            break;
                                     }
-                                } else{
-                                    cout << "CPF não encontrado." << endl;
+                                break; // encerra o for
                                 }
                             }
-                        } else cadastrarCliente();
+
+
+                        if(!clienteEncontrado){
+                            cout << "CPF não encontrado." << endl;
+                        }
+                        
+                        } else{
+                            auto novoHospede = cadastrarCliente();
+                            // n tava vinculando o cliente ao quarto, ai fiz a funçao cadastrarcliente retornar o cliente novo e puxei aq
+                            quarto->addHospede(novoHospede.get());
+                            cout << "Novo hóspede cadastrado e vinculado ao quarto com sucesso!" << endl;
+                        }
+                        break;
+                    }
+                    case 3: {
+                        continuar = false;
+                        cout << "Retornando..." << endl;
+                        break;
+                    }
+
+                    default: {
+                        cout << "Opção inválida, tente novamente." << endl;
+                        break;
                     }
                 }
             }

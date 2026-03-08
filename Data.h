@@ -9,40 +9,47 @@ class Data{
     private:
     int dia, mes, ano;
     vector <int> diaLimite{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    bool valida = true;
     public:
     Data(){
-        dia = 0;
-        mes = 0;
-        ano = 0;
+        dia = 0; mes = 0; ano = 0;
+        valida = false;
     }
     Data(int d, int m, int a){
-        if((a % 4 == 0 && a % 100 != 0) || (a % 400 == 0))
-            diaLimite[1] = 29;
-        int itMes = m - 1;
-        if(itMes < diaLimite.size()){
-            if(d > diaLimite[itMes] || d <= 0){
-                dia = 1;
-                cout << "Atributo dia Inválido" << endl;
+            valida = true; // Assume que é válida até provar o contrário
+
+            if((a % 4 == 0 && a % 100 != 0) || (a % 400 == 0))
+                diaLimite[1] = 29;
+                
+            int itMes = m - 1;
+            if(itMes >= 0 && itMes < diaLimite.size()){
+                if(d > diaLimite[itMes] || d <= 0){
+                    dia = 1;
+                    cout << "Atributo dia Inválido" << endl;
+                    valida = false; 
+                }
+                else
+                    dia = d;
+            }
+            else{
+                dia = d;
+                cout << "Atributo mês Inválido" << endl;
+                valida = false; 
+            }
+            
+            if(m > 12 || m <= 0){
+                mes = 1;
+                valida = false; 
             }
             else
-                dia = d;
-        }
+                mes = m;
 
-        else{
-            dia = d;
-            cout << "Atributo mês Inválido" << endl;
-        }
-        
-        if(m > 12 || m <= 0){
-            mes = 1;
-        }
-        else
-            mes = m;
-
-        if(a < 0)
-            ano = 1;
-        else
-            ano = a;
+            if(a < 0){
+                ano = 1;
+                valida = false; 
+            }
+            else
+                ano = a;
     }
 
     int getDia(){
@@ -106,6 +113,10 @@ class Data{
     
     void exibirData(){
         cout << toStringData() << endl;
+    }
+
+    bool isValida(){
+        return valida;
     }
 
     bool operator<=(const Data& d){
