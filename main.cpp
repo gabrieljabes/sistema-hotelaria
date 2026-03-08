@@ -5,55 +5,39 @@
 #include "Pessoa.h"
 
 #include "ControleDeGastos.h"
-#include "QuartoStandart.h"
+#include "QuartoStandard.h"
 #include "SuiteLuxo.h"
 
 int main(){
-    /*Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
+    Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
+
+    Pessoa p("Gabriel", "140.630.054-37", Data(21, 12, 2006));
+    Pessoa d("Jabis", "000.000.000-00", Data(21, 11, 2006));
+
     Despesa a("Batata frita", "Comida", 27.50, 2);
     Despesa b("Iscas de frango", "Comida", 40.50);
     Despesa c("Secador de cabelo", "Empréstimo", 80.00);
+ 
+    UnidadeHabitacional* teste = new SuiteLuxo(101, Data(27, 12, 2026), Data(31, 12, 2026), 800, false);
+    UnidadeHabitacional* seila = new QuartoStandard(102, Data(23, 12, 2026), Data(27, 12, 2026), 200);
 
-    p.getFatura().addDespesa(a);
-    p.getFatura().addDespesa(b);
-    p.getFatura().addDespesa(c);
-    p.getFatura().exibirGastos("comida");
-    std::cout << "Total: " << p.getFatura().calcularTotal() << std::endl;
-    p.getFatura().zerarGastos();
-    p.getFatura().exibirGastos();
+    teste->addHospede(&p);
+    teste->addHospede(&d);
+    teste->getHospede(0)->getFatura().addDespesa(a);
+    teste->getHospede(1)->getFatura().addDespesa(b);
+    teste->getHospede(0)->getFatura().addDespesa(c);
 
-    std::cout << "Total: " << p.getFatura().calcularTotal() << std::endl;
-    std::cout << p.getNome() << p.getCpf() << p.getData().toStringData() << endl;
-        return 0;
-ControleDeGastos w;
-Despesa a("Batata frita", "Comida", 27.50, 2);
-Despesa b("Iscas de frango", "Comida", 40.50);
+    teste->exibirUH();
+    cout << endl << endl << endl;
+    teste->exibirDetalhes();
+    cout << endl << endl << endl;
+    teste->exibirCheckout();
+    cout << endl << endl << endl;
+    seila->exibirUH();
+    cout << endl << endl << endl;
+    seila->exibirDetalhes();
+    cout << endl << endl << endl;
+    seila->exibirCheckout();
 
-Data inicio(7, 3, 2026);
-Data fim(10, 3, 2026);
-UnidadeHabitacional* uh;
-int tipo;
-cin >> tipo;
-switch(tipo){
-    case 1:
-    uh = new QuartoStandart(301, inicio, fim);
-    cout << "Checkout do quarto standart: R$" << uh->calcularCheckout() << endl;
-    break;
-    
-    case 2:
-    uh = new SuiteLuxo(601, inicio, fim);
-    cout << "Checkout da suite de luxo: R$" << uh->calcularCheckout() << endl;
-    break;
-
-    default: break;
+   
 }
-
-w.addDespesa(a);
-w.addDespesa(b);
-
-w.exibirGastos();
-
-cout << "Total: " << w.calcularTotal() << endl;*/
-    return 0;
-}
-
