@@ -72,7 +72,7 @@ class Hotel{
 
             if(buscarQuartoPorID(id) != nullptr){
                 cout << "Quarto de ID: " << id << ", já existe." << endl;
-                continue; // se n continua executando o resto pow
+                continue; //se n continua executando o resto pow
             }
 
             cout << "Qual o tipo da Unidade Habitacional? (1 - Quarto Standart ou 2 - Suíte de luxo)" << endl;
@@ -92,7 +92,7 @@ class Hotel{
 
                 if(fim <= inicio && fim.isValida()){
                     cout << "Erro: A data de Check-out não pode ser anterior ou igual ao Check-in." << endl;
-                    // força a repetição mudando o estado dela pra não passar no while
+                    //força a repetição mudando o estado dela pra não passar no while
                     fim = Data(); 
                 }
 
@@ -175,7 +175,7 @@ void listarTodas(){
         }
         
         cout << "==========================================================================\n" << endl;
-        // Restaura a formatação do cout
+        // restaura a formatação do cout
         cout.flags(f);
     }
 
@@ -320,6 +320,7 @@ void listarTodas(){
 
                     case 2: {
                         int opcaoHospede;
+                        cout << "1. Vincular cliente EXISTENTE a um quarto" << endl;
                         cout << "2. Cadastrar NOVO cliente e adicionar ao quarto" << endl;
                         cout << "3. Alterar dados de um hóspede que JÁ ESTÁ no quarto" << endl;
                         cout << "Escolha uma opcao: ";
@@ -462,20 +463,17 @@ void listarTodas(){
             cout << setfill(' ') << setw(32) << "HOTEL" << endl;
             cout << setfill('=') << setw(60) << "=" << endl;
             
-            // --- BLOCO DE CADASTRO (CREATE) ---
+            
             cout << left << setw(5) << "1" << " - Cadastrar Unidade Habitacional" << endl;
             cout << left << setw(5) << "2" << " - Cadastrar Novo Cliente" << endl;
             
-            // --- BLOCO DE LEITURA (READ) ---
             cout << left << setw(5) << "3" << " - Listar Unidades Habitacionais" << endl;
             cout << left << setw(5) << "4" << " - Exibir Unidade Específica" << endl;
             cout << left << setw(5) << "5" << " - Exibir Cliente e Fatura (por CPF)" << endl;
             
-            // --- BLOCO DE ATUALIZAÇÃO (UPDATE) ---
             cout << left << setw(5) << "6" << " - Lançar Despesa (por CPF)" << endl;
             cout << left << setw(5) << "7" << " - Alterar Dados (Quarto/Hóspede)" << endl;
             
-            // --- BLOCO DE REMOÇÃO E RELATÓRIO (DELETE / REPORT) ---
             cout << left << setw(5) << "8" << " - Checkout de Unidade (Remover)" << endl;
             cout << left << setw(5) << "9" << " - Exibir Relatório Gerencial" << endl;
             
@@ -575,7 +573,6 @@ void salvarDados() {
             arquivo << nomeFormatado << " " << c->getCpf() << " "
                     << c->getData().getDia() << " " << c->getData().getMes() << " " << c->getData().getAno();
 
-            // GUARDA AS FATURAS: Primeiro a quantidade, depois os itens
             int qtdDespesas = c->getFatura().getQuantDespesas();
             arquivo << " " << qtdDespesas << endl;
 
