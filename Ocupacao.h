@@ -5,9 +5,15 @@ class Ocupacao{
     private:
     Data dataInicio;
     Data dataFim;
-
+    bool temOcupacao;
     public:
+    Ocupacao(){
+        temOcupacao = false;
+        dataInicio = Data();
+        dataFim = Data();
+    }
     Ocupacao(Data inicio, Data fim){
+        temOcupacao = true;
         dataInicio = inicio;
         dataFim = fim;
     }
@@ -17,6 +23,10 @@ class Ocupacao{
     }
     Data getDataFim(){
         return dataFim;
+    }
+
+    bool getTemOcupacao(){
+        return temOcupacao;
     }
 
     void setDataInicio(Data inicio){
@@ -36,5 +46,13 @@ class Ocupacao{
             i++;
         }
       return i;
+    }
+
+    string stringPeriodo(){
+        if(temOcupacao){
+            return (getDataInicio().toStringData() + " a " + getDataFim().toStringData());
+        } else{
+            return "Não tem ocupação";
+        }
     }
 };

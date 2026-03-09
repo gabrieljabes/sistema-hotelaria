@@ -13,6 +13,10 @@ class ControleDeGastos{
     
     public:
 
+    Despesa getDespesa(int index){
+        return gastos[index];
+    }
+
     void addDespesa(Despesa& d){
         for(auto& item : gastos){
             if(item.getNome() == d.getNome()){
@@ -72,6 +76,10 @@ class ControleDeGastos{
                     k.exibir();
             }
         } else return;
+    }
+
+    int getQuantDespesas(){
+        return gastos.size();
     }
 
     void zerarGastos(){

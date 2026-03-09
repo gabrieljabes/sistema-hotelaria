@@ -1,5 +1,6 @@
 #pragma once
 #include "UH.h"
+#include <iomanip>
 
 class SuiteLuxo : public UnidadeHabitacional{
     private:
@@ -8,6 +9,10 @@ class SuiteLuxo : public UnidadeHabitacional{
     bool temHidromassagemPrivativa;
 
     public:
+    SuiteLuxo(int i, double valorD, bool hidro) : temHidromassagemPrivativa(hidro), UnidadeHabitacional(i, valorD){
+        tipo = 2;
+        limiteHospedes = 5;
+    }
     SuiteLuxo(int i, Data dataInicio, Data dataFim, double valorD, bool hidro) : temHidromassagemPrivativa(hidro), UnidadeHabitacional(i, dataInicio, dataFim, valorD){
         tipo = 2;
         limiteHospedes = 5;
@@ -15,6 +20,10 @@ class SuiteLuxo : public UnidadeHabitacional{
 
     void setHidromassagem(bool q){
         temHidromassagemPrivativa = q;
+    }
+
+    bool getHidromassagem(){
+        return temHidromassagemPrivativa;
     }
 
     void exibirInfo() override {

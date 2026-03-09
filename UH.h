@@ -3,6 +3,7 @@
 #include "Ocupacao.h"
 #include "Pessoa.h"
 #include <memory>
+#include <iomanip>
 
 class UnidadeHabitacional{
     protected:
@@ -10,13 +11,18 @@ class UnidadeHabitacional{
         int tipo; // tipo de UH 1 - standart | 2 - suiteluxo
         int limiteHospedes; //depende do tipo de UH
         double valorDiaria; //depende do tipo de UH
-        Ocupacao periodo; 
+        Ocupacao periodo;
         vector <Pessoa*> hospedesAtuais;
         bool ocupado;
 
     public:
+    UnidadeHabitacional(int i, double diaria) : 
+    id(i), valorDiaria(diaria), ocupado(false){
+        periodo = Ocupacao();
+    }
     UnidadeHabitacional(int i, Data datainicio, Data datafim, double diaria) : 
     id(i), periodo(datainicio, datafim), valorDiaria(diaria), ocupado(false){}
+
     UnidadeHabitacional(int i, Data datainicio, Data datafim) :
     id(i), periodo(datainicio, datafim), ocupado(false) {} //construtor para as classes filhas
 
@@ -93,14 +99,17 @@ class UnidadeHabitacional{
     }
 
     virtual void exibirInfo(){
+        ios_base::fmtflags f(cout.flags());
+        cout << fixed << setprecision(2);
+
         cout << "\n[" << getTipoString() << " - Unidade " << id << "]" << endl;
         cout << "Valor da diária: R$ " << valorDiaria << endl;
         cout << "Limite de hóspedes: " << limiteHospedes << endl;
         cout << "Status: " << (ocupado ? "Ocupado" : "Livre") << endl;
-        cout << "Período: " << periodo.getDataInicio().toStringData() << " a " 
-             << periodo.getDataFim().toStringData() << endl;
-    }
+        cout << "Período: " << periodo.stringPeriodo() << endl;
 
+        cout.flags(f);
+    }
 
     virtual void exibirFaturas(){
         if(hospedesAtuais.empty())
